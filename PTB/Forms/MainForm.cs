@@ -14,6 +14,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HtmlAgilityPack;
+using PTB.Utilities;
+using PTB.Controllers;
 
 namespace PTB
 {
@@ -86,47 +89,37 @@ namespace PTB
             tabControl.Visible = true;
             tabControl.Enabled = true;
 
-            var cookieContainer = new CookieContainer();
-            var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
-            var client = new HttpClient(handler) { BaseAddress = new Uri(account.Server) };
+            GameController gameController = new GameController(account, webBrowser);
 
-            client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-            client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.9");
-            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
-
-            cookieContainer.Add(new Uri(account.Server), new Cookie("tt_lang", "en"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("tt_mlang", "en"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("highlightsToggle", "false"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("c_name", "0|Win32|Windows%20NT%2010.0|1920px*1080px|amd64|-%2C-%2C-"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("chatmaninwindowtab", "0"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("chatmainwindow", "minimized"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("WMBlueprints", "%5B%5D"));
-            cookieContainer.Add(new Uri(account.Server), new Cookie("tt_lang", "en"));
-
-            var result = client.GetAsync("/login.php").Result;
-
-            DisplayHtml(result.Content.ReadAsStringAsync().Result, webBrowser);
             
-            result.EnsureSuccessStatusCode();
 
-            IEnumerable<string> temp;
-            result.Headers.TryGetValues("Set-Cookie", out temp);
+            var result = client.Get("/login.php");
 
-            foreach(string cookie in temp)
+            var html = result.Content.ReadAsStringAsync().Result;
+
+            var ftHiddenField = htmlReader.Find(html, "//input[@name='ft']");
+            var ft = ftHiddenField.Attributes.FirstOrDefault(x => x.Name == "value").Value;
+
+            var loginHiddenField = htmlReader.Find(html, "//input[@name='login']");
+            var login = loginHiddenField.Attributes.FirstOrDefault(x => x.Name == "value").Value;
+
+            var content = new FormUrlEncodedContent(new[]
             {
-                if(cookie.Contains("path") || cookie.Contains("expires"))
-                {
+                new KeyValuePair<string, string>("ft", ft), // get from html
+                new KeyValuePair<string, string>("user", account.AccountName),
+                new KeyValuePair<string, string>("pw", account.Password),
+                new KeyValuePair<string, string>("s1", "login"),
+                new KeyValuePair<string, string>("w", "1920:1080"),
+                new KeyValuePair<string, string>("login", login), // get from html
+            });
 
+            result = client.Post("/login.php", content);
 
-                } else
-                {
-                    string key = cookie.Substring(0, cookie.IndexOf('='));
-                    string value = cookie.Substring(cookie.IndexOf('='),);
+            html = result.Content.ReadAsStringAsync().Result;
 
-                    cookieContainer.Add(new Uri(account.Server), new Cookie());
-                }
-            }
+            DisplayHtml(html, webBrowser);
+
+            bool b = false;
         }
 
         public void DisplayHtml(string html, WebBrowser browser)
