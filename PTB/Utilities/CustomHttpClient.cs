@@ -49,7 +49,12 @@ namespace PTB.Utilities
         public HttpResponseMessage Get(string path)
         {
             Client.DefaultRequestHeaders.Remove("Referer");
-            Client.DefaultRequestHeaders.Add("Referer", Referer);
+
+            if (Referer.Length > 0)
+            {
+                Client.DefaultRequestHeaders.Add("Referer", Referer);
+            }
+
             // Execute get request
             HttpResponseMessage result = Client.GetAsync(path).Result;
             result.EnsureSuccessStatusCode();
@@ -73,7 +78,12 @@ namespace PTB.Utilities
         public HttpResponseMessage Post(string path, FormUrlEncodedContent content)
         {
             Client.DefaultRequestHeaders.Remove("Referer");
-            Client.DefaultRequestHeaders.Add("Referer", Referer);
+
+            if (Referer.Length > 0)
+            {
+                Client.DefaultRequestHeaders.Add("Referer", Referer);
+            }
+
             // Execute get request
             HttpResponseMessage result = Client.PostAsync(path, content).Result;
             result.EnsureSuccessStatusCode();

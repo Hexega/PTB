@@ -30,9 +30,13 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.AccountTabPage = new System.Windows.Forms.TabPage();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tspbOpperationProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.tsslOpperation = new System.Windows.Forms.ToolStripStatusLabel();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.tabControl.SuspendLayout();
             this.AccountTabPage.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -47,6 +51,7 @@
             // 
             // AccountTabPage
             // 
+            this.AccountTabPage.Controls.Add(this.statusStrip1);
             this.AccountTabPage.Controls.Add(this.webBrowser);
             this.AccountTabPage.Location = new System.Drawing.Point(4, 22);
             this.AccountTabPage.Name = "AccountTabPage";
@@ -54,6 +59,27 @@
             this.AccountTabPage.TabIndex = 0;
             this.AccountTabPage.Text = "UserName - Speed";
             this.AccountTabPage.UseVisualStyleBackColor = true;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspbOpperationProgress,
+            this.tsslOpperation});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 628);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(888, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tspbOpperationProgress
+            // 
+            this.tspbOpperationProgress.Name = "tspbOpperationProgress";
+            this.tspbOpperationProgress.Size = new System.Drawing.Size(100, 16);
+            // 
+            // tsslOpperation
+            // 
+            this.tsslOpperation.Name = "tsslOpperation";
+            this.tsslOpperation.Size = new System.Drawing.Size(0, 17);
             // 
             // webBrowser
             // 
@@ -73,6 +99,9 @@
             this.Size = new System.Drawing.Size(896, 676);
             this.tabControl.ResumeLayout(false);
             this.AccountTabPage.ResumeLayout(false);
+            this.AccountTabPage.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -81,5 +110,8 @@
         private System.Windows.Forms.TabPage AccountTabPage;
         public System.Windows.Forms.TabControl tabControl;
         public System.Windows.Forms.WebBrowser webBrowser;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel tsslOpperation;
+        private System.Windows.Forms.ToolStripProgressBar tspbOpperationProgress;
     }
 }

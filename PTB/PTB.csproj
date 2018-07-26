@@ -44,6 +44,9 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Priority Queue, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.4.1.1\lib\net45\Priority Queue.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -71,9 +74,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Migrations\201807241935184_init.cs" />
-    <Compile Include="Migrations\201807241935184_init.Designer.cs">
-      <DependentUpon>201807241935184_init.cs</DependentUpon>
+    <Compile Include="Migrations\201807262112509_init.cs" />
+    <Compile Include="Migrations\201807262112509_init.Designer.cs">
+      <DependentUpon>201807262112509_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\TribeType.cs" />
     <Compile Include="Services\AccountService.cs" />
@@ -101,7 +104,11 @@
       <DependentUpon>PTBDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Utilities\CustomHttpClient.cs" />
+    <Compile Include="Utilities\HtmlDisplayer.cs" />
     <Compile Include="Utilities\HtmlReader.cs" />
+    <Compile Include="Workers\IWorker.cs" />
+    <Compile Include="Workers\LoginWorker.cs" />
+    <Compile Include="Workers\ReadVillagesList.cs" />
     <EmbeddedResource Include="Components\TempAccountPage.resx">
       <DependentUpon>TempAccountPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -111,8 +118,8 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807241935184_init.resx">
-      <DependentUpon>201807241935184_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201807262112509_init.resx">
+      <DependentUpon>201807262112509_init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

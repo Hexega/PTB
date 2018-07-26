@@ -81,43 +81,15 @@ namespace PTB
             Account account = ((AccountToolStripDropDownItem)sender).Account;
 
             TempAccountPage tempAccountPage = new TempAccountPage();
-            WebBrowser webBrowser = (WebBrowser)tempAccountPage.tabControl.TabPages[0].Controls.Find("webBrowser", true)[0];
-            webBrowser.ScriptErrorsSuppressed = true;
+            TabPage page = tempAccountPage.tabControl.TabPages[0];
 
-            tabControl.TabPages.Add(tempAccountPage.tabControl.TabPages[0]);
+            tabControl.TabPages.Add(page);
 
             tabControl.Visible = true;
             tabControl.Enabled = true;
 
-            GameController gameController = new GameController(account, webBrowser);
+            GameController gameController = new GameController(account, page);
 
-            
-
-            var result = client.Get("/login.php");
-
-            var html = result.Content.ReadAsStringAsync().Result;
-
-            var ftHiddenField = htmlReader.Find(html, "//input[@name='ft']");
-            var ft = ftHiddenField.Attributes.FirstOrDefault(x => x.Name == "value").Value;
-
-            var loginHiddenField = htmlReader.Find(html, "//input[@name='login']");
-            var login = loginHiddenField.Attributes.FirstOrDefault(x => x.Name == "value").Value;
-
-            var content = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("ft", ft), // get from html
-                new KeyValuePair<string, string>("user", account.AccountName),
-                new KeyValuePair<string, string>("pw", account.Password),
-                new KeyValuePair<string, string>("s1", "login"),
-                new KeyValuePair<string, string>("w", "1920:1080"),
-                new KeyValuePair<string, string>("login", login), // get from html
-            });
-
-            result = client.Post("/login.php", content);
-
-            html = result.Content.ReadAsStringAsync().Result;
-
-            DisplayHtml(html, webBrowser);
 
             bool b = false;
         }
